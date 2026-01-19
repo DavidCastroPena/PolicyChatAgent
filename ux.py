@@ -33,17 +33,17 @@ class PolicyChatbot:
         """
         responses = {
             'welcome': [
-                "Hi there! I'm PolicyChat, your AI research assistant. I can help you analyze policy documents. Ready to start? ",
-                "Welcome! I'm PolicyChat, I specialize in helping you dive deep into policy research. Ready to start?" ,
-                "Hello! I'm PolicyChat, ready to explore some policy insights? "
+                "Hello! I'm PolicyChat, ready to explore some policy insights?",
+                "Hello! I'm PolicyChat — what policy question would you like to explore today?",
+                "Hi — PolicyChat here. What's your policy question?"
             ],
             'query_clarification': [
-                "Could you tell me  about the specific policy situation you're interested in? Please, give me as much detail as possible.",
-                "What policy area would you like to research today? Please, give me as much detail as possible.",
-                "Please describe the policy context or research question you want to explore. Give me as much detail as possible."
+                "Could you tell me about the specific policy situation you're interested in? Please give as much detail as possible.",
+                "Please describe the policy question or context you want to explore. The more detail, the better.",
+                "What exactly is the policy question you'd like to investigate? Please include relevant scope, geography, time horizon, and stakeholders."
             ],
             'analysis_option': [
-                "I can help you analyze papers in two ways:\n\n1. Analyze local papers only. For this option you will provide the path to the local folders where you have this papers and I will analyze them for you. \n2. Analyze local papers and look for additional online resources using Genie API and Semantic Scholar\n\nWhich approach would you prefer?",
+                "I can help you analyze papers in three ways:\n\n1) Local papers only — you provide a folder path with your documents and I analyze them.\n2) External papers only — I search online (Semantic Scholar + Genie API) and analyze the results.\n3) Mixed — I analyze your local papers and also search online for complementary resources.\n\nWhich approach would you prefer?",
             ],
             'papers_folder': [
                 "Please provide the full path to the folder containing your policy papers.",
@@ -54,6 +54,11 @@ class PolicyChatbot:
                 "Great! Here are the papers I found in the local folder you provided. Please, select up to 5 for our analysis by typing the paper's reference numbers separated by comma.",
                 "These are the documents in your folder. Which ones would you like to focus on? Please, select up to 5 for our analysis by typing the paper's reference numbers separated by comma",
                 "I've discovered these papers in the provided folder. Please, select up to 5 for our analysis by typing the paper's reference numbers separated by comma"
+            ],
+            'complete': [
+                "👍 Perfect! I'll now search for relevant papers online and analyze them for you. Make sure 'Enable external search' is checked in the sidebar.",
+                "Great! I'll search online resources to help answer your policy question. Please ensure external search is enabled in the sidebar.",
+                "Ready to go! I'll query online databases for relevant research. Check that external search is enabled in the sidebar settings."
             ]
         }
 
@@ -76,17 +81,24 @@ class PolicyChatbot:
             return self.generate_response()
 
         elif self.state['current_stage'] == 'analysis_option':
-            if any(option in user_input.lower() for option in ['1', 'one', 'local', 'local papers', 'first']):
+            li = user_input.lower()
+            if any(option in li for option in ['1', 'one', 'local', 'local papers', 'first']):
                 self.state['analysis_option'] = '1'
-            elif any(option in user_input.lower() for option in ['2', 'two', 'online', 'additional', 'second']):
+                # local-only requires a papers folder
+                self.state['current_stage'] = 'papers_folder'
+                return self.generate_response()
+            elif any(option in li for option in ['2', 'two', 'external', 'online', 'only']):
                 self.state['analysis_option'] = '2'
-
+                # external-only: skip mandatory local folder
+                self.state['current_stage'] = 'complete'
+                return self.generate_response()
+            elif any(option in li for option in ['3', 'three', 'mixed', 'both']):
+                self.state['analysis_option'] = '3'
+                # mixed requires local folder as well
+                self.state['current_stage'] = 'papers_folder'
+                return self.generate_response()
             else:
-                return "Please choose 1 or 2. Let me show the options again:\n\n" + \
-                       self.generate_response()
-
-            self.state['current_stage'] = 'papers_folder'
-            return self.generate_response()
+                return "Please choose 1, 2, or 3. Let me show the options again:\n\n" + self.generate_response()
 
         elif self.state['current_stage'] == 'papers_folder':
             if os.path.exists(user_input):
@@ -147,6 +159,16 @@ def main():
     st.set_page_config(page_title="PolicyChat", page_icon="🤖", layout="wide")
     st.title("PolicyChat: Your AI Copilot for Policy Research 🤖 📄 ⚖️")
 
+    # Sidebar: external search and API key
+    with st.sidebar:
+        st.header("External Search")
+        external_search = st.checkbox("Enable external search (Semantic Scholar)", value=True)
+        max_results = st.number_input("Max external results", min_value=1, max_value=50, value=10)
+        api_key_input = st.text_input("Semantic Scholar API key (optional)", type="password")
+        optional_local_folder = st.text_input("Optional local papers folder (leave blank to skip)")
+        st.markdown("---")
+        st.caption("If you enable external search, the app will query Semantic Scholar and may download open-access PDFs for highly relevant papers.")
+
     # Initialize or retrieve session state
     if 'chatbot' not in st.session_state:
         st.session_state.chatbot = PolicyChatbot()
@@ -188,19 +210,31 @@ def main():
 
         # Check if all required inputs are collected
         chatbot_state = st.session_state.chatbot.state
-        if all([
-            chatbot_state['query'], 
-            chatbot_state['analysis_option'], 
-            chatbot_state['papers_folder'], 
-            chatbot_state['local_papers']
-        ]):
+        option = chatbot_state.get('analysis_option')
+        # external-only (2) doesn't require local folder; local (1) and mixed (3) do
+        if option == '2':
+            ready = bool(chatbot_state.get('query') and option)
+        else:
+            ready = bool(chatbot_state.get('query') and option and chatbot_state.get('papers_folder') and chatbot_state.get('local_papers'))
+
+        if ready:
             # Prepare user inputs for Coordinator
             user_inputs = {
                 'query': chatbot_state['query'],
-                'option': chatbot_state['analysis_option'],
-                'papers_folder': chatbot_state['papers_folder'],
-                'local_papers': chatbot_state['local_papers']
+                'option': chatbot_state['analysis_option']
             }
+            if chatbot_state.get('papers_folder'):
+                user_inputs['papers_folder'] = chatbot_state['papers_folder']
+            if chatbot_state.get('local_papers'):
+                user_inputs['local_papers'] = chatbot_state['local_papers']
+            # Include external search settings
+            user_inputs['external_search'] = bool(external_search)
+            user_inputs['max_results'] = int(max_results)
+            if api_key_input:
+                user_inputs['semantic_scholar_api_key'] = api_key_input
+            # Optional local folder from sidebar overrides chat-provided folder
+            if optional_local_folder and os.path.exists(optional_local_folder):
+                user_inputs['optional_local_folder'] = optional_local_folder
             
             # Save to JSON for Coordinator
             with open('user_inputs.json', 'w') as f:

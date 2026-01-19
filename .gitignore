@@ -1,4 +1,14 @@
 cs224v
 .env
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
 
 genie-worksheets/
+downloaded_papers/
+reports/
+*.jsonl
+comparison_questions_*.txt
+memo_*.md

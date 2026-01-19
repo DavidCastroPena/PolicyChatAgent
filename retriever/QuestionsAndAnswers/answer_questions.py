@@ -28,7 +28,8 @@ class QuestionAnswerer:
             self.message_output(text)
 
     def extract_text_from_pdf(self, paper_id):
-        pdf_path = f"./{paper_id}"
+        # Use paper_id directly - it's already a full path
+        pdf_path = paper_id
         
         try:
             with open(pdf_path, "rb") as f:
@@ -83,7 +84,7 @@ class QuestionAnswerer:
         """
 
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-2.0-flash-exp",
             generation_config=generation_config,
             system_instruction=prompt,
         )
@@ -174,6 +175,15 @@ class QuestionAnswerer:
         # Update questions list
         self.questions_list = self.retrieve_naive(user_query=user_query)
 
+        # Safety check: if no papers were found, skip processing
+        if not self.relevant_papers_ids:
+            self.message("⚠️ No relevant papers found to analyze. Try a different query or adjust search parameters.")
+            # Still save empty output
+            output_path = os.path.join(os.getcwd(), "paper_answers.json")
+            with open(output_path, "w") as json_file:
+                json.dump({}, json_file, indent=4)
+            return
+
         # Modify hereee
         self.generate_nuanced(all_external_content, external_content_by_title)
 
@@ -223,7 +233,22 @@ class QuestionAnswerer:
         filtered_json = {}
         filtered_out = 0
         for paper_id, questions in final_json.items():
-            empty_count = sum(1 for answer in questions.values() if answer in (None, ""))
+            # Be defensive: `questions` may be a dict (expected) or a list returned
+            # by some upstream component. Handle both cases gracefully.
+            if isinstance(questions, dict):
+                answers_iter = questions.values()
+            elif isinstance(questions, list):
+                answers_list = []
+                for item in questions:
+                    if isinstance(item, dict):
+                        answers_list.extend(item.values())
+                    elif isinstance(item, str):
+                        answers_list.append(item)
+                answers_iter = answers_list
+            else:
+                answers_iter = []
+
+            empty_count = sum(1 for answer in answers_iter if answer in (None, ""))
             if empty_count < 3:
                 filtered_json[paper_id] = questions
             else:

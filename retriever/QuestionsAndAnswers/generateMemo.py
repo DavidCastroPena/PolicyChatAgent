@@ -38,6 +38,7 @@ class GenerateMemo:
             "top_p": 0.95,
             "top_k": 5,
             "max_output_tokens": 8192,
+            "response_mime_type": "text/plain",
         }
 
         current_dir = os.getcwd()  # Get the current working directory
@@ -53,7 +54,7 @@ class GenerateMemo:
         prompt = template.format(query=query, questions = questions_str)
 
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-2.0-flash-exp",
             generation_config=generation_config,
             system_instruction=prompt
         )
@@ -61,12 +62,24 @@ class GenerateMemo:
 
         response = response.text
 
+        # Prepend light CSS for table styling so Streamlit renders nicer tables
+        style_block = """
+<style>
+  .memo-table { width: 100%; border-collapse: collapse; overflow-x: auto; display: block; }
+  .memo-table th, .memo-table td { border: 1px solid #ddd; padding: 8px; }
+  .memo-table th { background-color: #f6f8fa; text-align: left; }
+  .memo-container { overflow-x: auto; }
+  .memo-table tr:nth-child(even){ background-color: #fbfbfb; }
+</style>
+
+"""
+
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         memo_file = f"memo_{timestamp}.md"
 
-        # Write the response to the file
-        with open(memo_file, "w") as file:
-            file.write(response)
+        # Write the response to the file with a style block to improve table rendering
+        with open(memo_file, "w", encoding='utf-8') as file:
+            file.write(style_block + "\n" + response)
         
         print(f"Memo saved to {memo_file}")
         self.message(f"🗃️ Memo file saved to {memo_file}.") 
