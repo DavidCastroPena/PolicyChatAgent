@@ -1,12 +1,6 @@
 {
-    "query": "I am the mayor of SF and I want to create a policy that fosters financial inclusion in the mission district. I want to implement this from a gender perspective focused on women that are substance users",
+    "query": "i want to reduce young unemployment in bogota colombia. what evidence based could you find about similar places?",
     "option": "2",
-    "papers_folder": "papers/",
-    "local_papers": [
-        "papers/MeasuringFinancialInclusion.pdf",
-        "papers/DigitalFinancialServicesToImproveFormalizedAccessAndInclusion.pdf",
-        "papers/GenderGapMobileBanking.pdf",
-        "papers/BankExpansionFirmDynamicsStructuralTransformations.pdf",
-        "papers/TowardsInclusiveFinanceInIndonesia.pdf"
-    ]
+    "external_search": true,
+    "max_results": 5
 }

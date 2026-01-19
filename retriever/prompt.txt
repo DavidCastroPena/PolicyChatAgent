@@ -3,8 +3,20 @@ Please format your output as a markdown (.md) file with the following structure.
 
 Policy Memo Structure: 
 - Title: Craft a compelling and relevant title for the memo based on the user's query: '{query}'.
-- Introduction: Write a concise introduction summarizing the key issue and the purpose of the memo. Highlight the significance of the query and the context provided.
-- Comparison across existing research: Using the answers to these specific questions: {questions}, create a well-organized comparison table. Each question should represent a column, and each paper in the provided JSON data should occupy a row. The table should make it easy to compare insights across different papers.
-- Detailed Findings: Summarize, paper by paper, the answers to the last three questions in the JSON data for each paper, ensuring clarity and brevity.
-- Recommendations: Provide actionable and evidence-based recommendations directly related to the user query: '{query}'. Ensure these recommendations align with insights from the Comparison Table and Detailed Findings.
-- Sources: Cite the papers used to build that memo. 
+- Introduction: Write a concise introduction (2-3 paragraphs maximum) summarizing the key issue and the purpose of the memo. Highlight the significance of the query and the context provided.
+- Comparison across existing research: Using the answers to these specific questions: {questions}, create a well-organized comparison table. IMPORTANT FORMATTING REQUIREMENTS:
+  * Each question should represent a column
+  * Each paper should occupy ONE row
+  * Keep cell content CONCISE (maximum 2-3 sentences per cell)
+  * Use bullet points for multiple items within cells
+  * Avoid repeating full questions in cells - assume column headers are self-explanatory
+  * If an answer is too long, summarize the key point only
+  * Use abbreviations where appropriate (e.g., RCT for Randomized Controlled Trial)
+  * Example format:
+    | Paper Title | Place | Date | Key Findings |
+    |-------------|-------|------|--------------|
+    | Paper A     | India | 2020 | • Finding 1<br>• Finding 2 |
+    | Paper B     | Kenya | 2019 | Brief summary |
+- Detailed Findings: For each paper, summarize the answers to the last three questions in the JSON data. Keep each paper's summary to 3-4 sentences maximum, ensuring clarity and brevity.
+- Recommendations: Provide 3-5 actionable and evidence-based recommendations directly related to the user query: '{query}'. Format as a numbered list. Ensure these recommendations align with insights from the Comparison Table and Detailed Findings.
+- Sources: List the papers cited in a numbered bibliography format. 

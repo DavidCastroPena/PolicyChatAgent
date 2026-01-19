@@ -1,25 +1,25 @@
 from pathlib import Path
 import json
-from openai import OpenAI
 import os
 from dotenv import load_dotenv
 from datetime import datetime
 import ast
+import google.generativeai as genai
 
 
 
 load_dotenv()
 
-open_ai_api_key = os.getenv("OPENAI_API_KEY")
 gemini_api_key = os.getenv("GEMINI_API_KEY")
 
 
 class NaiveQuestions:
     def __init__(self):
-        #Initialize the OpenAI client
-        self.client = OpenAI(api_key=open_ai_api_key)
-        if not self.client.api_key:
-            raise ValueError("Please set the OPENAI_API_KEY environment variable")
+        #Initialize the Gemini client
+        if not gemini_api_key:
+            raise ValueError("Please set the GEMINI_API_KEY environment variable")
+        genai.configure(api_key=gemini_api_key)
+        self.model = genai.GenerativeModel("gemini-2.0-flash-exp")
         
         #Use the exact path where query_results exists
         self.PROJECT_DIR = Path(r".")
@@ -87,7 +87,7 @@ class NaiveQuestions:
     
 
     def generate_comparison_questions(self, user_query, question_number, relevant_papers_ids):
-        """Generate comparison questions using OpenAI API."""
+        """Generate comparison questions using Gemini API."""
         if not relevant_papers_ids:
             return "No query results available to generate questions."
 
@@ -95,33 +95,30 @@ class NaiveQuestions:
             # Extract topic
             prompt = "What is the general topic of this query? give it in 3 words: {}".format(user_query)
 
-            response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": prompt}#,
-                ],
-                max_tokens=30,
-                temperature=0.5
+            response = self.model.generate_content(
+                prompt,
+                generation_config={
+                    "temperature": 0.5,
+                    "max_output_tokens": 30
+                }
             )
 
-            topic = response.choices[0].message.content.strip()
+            topic = response.text.strip()
 
             # Prompt
             prompt = "Create {} questions that can be allow a thorough comparison of findings, methodologies, and conclusions among policy and econometric papers on the topic of '{}'. Note that the questions will be individually asked to each paper. Format the output as a python list of strings that looks like this [question 1, question 2, ...] in which each element only contains the question, no enumeration. Make sure that the output is a python list".format(question_number, topic)
             
-            # Call OpenAI with the new API format
-            response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": prompt}#,
-                    #{"role": "user", "content": context}
-                ],
-                max_tokens=300,
-                temperature=0.5
+            # Call Gemini API
+            response = self.model.generate_content(
+                prompt,
+                generation_config={
+                    "temperature": 0.5,
+                    "max_output_tokens": 300
+                }
             )
 
-            # Extract the generated questions from the response using the new format
-            questions = response.choices[0].message.content.strip()
+            # Extract the generated questions from the response
+            questions = response.text.strip()
             return questions
         
         except Exception as e:
@@ -152,8 +149,25 @@ class NaiveQuestions:
         print("\nGenerating and saving naive comparison questions for this topic...")
         comparison_questions = self.generate_comparison_questions(user_query=user_query, question_number=3, relevant_papers_ids=relevant_papers_ids)
         
+        # Parse the response - handle markdown code blocks and extra text
+        try:
+            # Remove markdown code blocks if present
+            questions_text = comparison_questions.strip()
+            if "```" in questions_text:
+                # Extract content between code blocks
+                start = questions_text.find('[')
+                end = questions_text.rfind(']') + 1
+                questions_text = questions_text[start:end]
+            
+            # Try to parse as Python list
+            comparison_questions = ast.literal_eval(questions_text)
+        except (SyntaxError, ValueError) as e:
+            print(f"Warning: Could not parse questions as list: {e}")
+            print(f"Raw response: {comparison_questions}")
+            # Fallback: create a simple list
+            comparison_questions = ["What are the main findings?", "What methodology was used?", "What population was studied?"]
+        
         # Add questions related to time and place
-        comparison_questions = ast.literal_eval(comparison_questions)
         comparison_questions.insert(0, "When was this paper writen?")
         comparison_questions.insert(0, "What is the main place where this paper is refering to?")
         comparison_questions.insert(0, "What is the title of the paper?")

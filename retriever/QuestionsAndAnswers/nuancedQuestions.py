@@ -158,7 +158,7 @@ class NuancedQuestions:
     def __init__(self, embedding_analyzer):
         # Configure the Gemini API
         genai.configure(api_key=gemini_api_key)
-        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        self.model = genai.GenerativeModel("gemini-2.0-flash-exp")
         self.embedding_analyzer = embedding_analyzer
         self.PROJECT_DIR = Path(".")
         self.output_file = self.PROJECT_DIR / f"question_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl"
@@ -216,7 +216,8 @@ class NuancedQuestions:
             return None
 
     def extract_text_from_pdf(self, paper_id):
-        pdf_path = f"./{paper_id}"
+        # Use paper_id directly - it's already a full path
+        pdf_path = paper_id
         
         try:
             with open(pdf_path, "rb") as f:
