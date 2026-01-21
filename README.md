@@ -273,50 +273,9 @@ PolicyChat introduces several agentic/NLP capabilities that generic chat systems
   - Rate-limits  
   - Paper drop-outs  
 
-This makes the system **inspectable and auditable**, critical for policy workflows.
+This makes the system **inspectable and auditable**, critical for policy workflows
 
 ---
-
-## ⚠️ Known Limitation — Missing World Model
-
-PolicyChat currently lacks a persistent **situational memory / world model**:
-
-- No awareness of:
-  - Current national policies  
-  - Institutional constraints  
-  - Political feasibility  
-  - Baseline program coverage  
-
-As a result:
-
-- Retrieval is literature-driven, not context-driven  
-- Jurisdiction matching is heuristic  
-- Recommendations may ignore real-world constraints  
-
----
-
-## 🚀 Roadmap — Adding a Situation & Context Agent
-
-Next-generation architecture will add:
-
-### Situation Builder Agent
-
-- Retrieves baseline policy context from:
-  - World Bank  
-  - OECD  
-  - National ministries  
-- Builds a structured **policy state representation**:
-  - Programs  
-  - Budgets  
-  - Target populations  
-  - Known bottlenecks  
-
-This enables:
-
-- Context-aware query planning  
-- Smarter jurisdiction filtering  
-- Realistic feasibility constraints  
-- Program-specific recommendations  
 
 ## ⚠️ Current Limitation (Next Step)
 
