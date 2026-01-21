@@ -14,9 +14,11 @@ load_dotenv()
 gemini_api_key = os.getenv("GEMINI_API_KEY")
 
 class GenerateMemo:
-    def __init__(self,  message_output=None):
+    def __init__(self, message_output=None, shared_timestamp=None):
         self.answer_list = []   
         self.message_output = message_output or print
+        self.evidence_summary = None  # Will be set by coordinator
+        self.shared_timestamp = shared_timestamp  # Store shared timestamp
 
     def message(self, text):
         """
@@ -74,22 +76,60 @@ class GenerateMemo:
 
 """
 
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        memo_file = f"memo_{timestamp}.md"
+        # Use shared timestamp if provided, otherwise generate new one
+        timestamp = self.shared_timestamp or datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Create reports/memos directory if it doesn't exist
+        memos_dir = Path("./reports/memos")
+        memos_dir.mkdir(parents=True, exist_ok=True)
+        memo_file = memos_dir / f"memo_{timestamp}.md"
+        
+        # Prepend evidence quality summary if available
+        if self.evidence_summary:
+            s = self.evidence_summary
+            evidence_header = f"""
+## Evidence Quality Summary
+
+- **Papers Retrieved**: {s.get('retrieved_total', 0)} from Semantic Scholar
+- **Unique Papers (Deduped)**: {s.get('deduped_count', 0)}
+- **Papers Analyzed**: {s.get('selected_for_llm', 0)} high-quality papers sent to LLM
+- **Quality Tiers**: A={s.get('tier_counts_selected', {}).get('A', 0)}, B={s.get('tier_counts_selected', {}).get('B', 0)}, C={s.get('tier_counts_selected', {}).get('C', 0)}
+- **Colombia-Relevant Papers**: {s.get('colombia_context_count', 0)}/{s.get('scored_count', 0)}
+
+---
+
+"""
 
         # Write the response to the file with a style block to improve table rendering
         with open(memo_file, "w", encoding='utf-8') as file:
-            file.write(style_block + "\n" + response)
+            file.write(style_block + "\n" + evidence_header + response)
         
-        print(f"Memo saved to {memo_file}")
-        self.message(f"🗃️ Memo file saved to {memo_file}.") 
-
-        return 
+        # Verify file exists and report absolute path
+        memo_file_abs = os.path.abspath(memo_file)
+        if os.path.exists(memo_file_abs):
+            print(f"✅ Memo saved to {memo_file_abs}")
+            self.message(f"🗃️ Memo file saved to {memo_file}.")
+            return memo_file_abs  # Return path for verification
+        else:
+            # Debug info if file doesn't exist
+            cwd = os.getcwd()
+            memo_dir_files = os.listdir(memo_dir)[:10] if os.path.exists(memo_dir) else []
+            print(f"❌ ERROR: Memo file not found after save!")
+            print(f"   Attempted path: {memo_file_abs}")
+            print(f"   Current working directory: {cwd}")
+            print(f"   Files in {memo_dir}: {memo_dir_files}")
+            self.message(f"⚠️ Warning: Memo file save verification failed")
+            return None 
     
-    def run(self, all_external_content, content_by_title, user_query):
+    def run(self, all_external_content, content_by_paper_id, user_query):
 
         answer = QuestionAnswerer(message_output=self.message_output)
-        answer.run(user_query=user_query, all_external_content= all_external_content, external_content_by_title =  content_by_title)
+        answer.run(user_query=user_query, all_external_content= all_external_content, external_content_by_paper_id =  content_by_paper_id)
+        
+        # Retrieve the shared timestamp from QuestionAnswerer if available
+        if hasattr(answer, 'shared_timestamp') and answer.shared_timestamp:
+            self.shared_timestamp = answer.shared_timestamp
+            print(f"📅 Using shared timestamp from questions: {self.shared_timestamp}")
         
         current_dir = Path(__file__).resolve().parent
         # Navigate to the parent directory and then to the target file
@@ -106,8 +146,13 @@ class GenerateMemo:
 
         try:
             # Define the directory containing the files
-            parent_dir = parent_dir = Path(os.getcwd()) # Go one level up from the current script's location
-            files = list(parent_dir.glob("comparison_questions_*.txt"))
+            questions_dir = Path("./reports/questions")
+            files = list(questions_dir.glob("comparison_questions_*.txt")) if questions_dir.exists() else []
+            
+            # Fallback to root directory for backward compatibility
+            if not files:
+                parent_dir = Path(os.getcwd())
+                files = list(parent_dir.glob("comparison_questions_*.txt"))
             
             if not files:
                 print("No comparison questions files found.")
@@ -126,7 +171,8 @@ class GenerateMemo:
         except Exception as e:
             print(f"\nError reading questions file: {e}")
 
-        self.generate_memo(user_query, question_str)
+        memo_path = self.generate_memo(user_query, question_str)
+        return memo_path
 
 
 def main():

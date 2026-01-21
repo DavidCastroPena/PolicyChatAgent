@@ -8,7 +8,16 @@ __pycache__/
 
 genie-worksheets/
 downloaded_papers/
-reports/
+
+# Reports folder structure - ignore generated content but keep structure
+reports/combined/*.jsonl
+reports/external_papers/*.jsonl
+reports/local_papers/*.jsonl
+reports/memos/*.md
+reports/questions/*.txt
+reports/questions/*.jsonl
+
+# Legacy root-level files (should no longer be generated)
 *.jsonl
 comparison_questions_*.txt
 memo_*.md

@@ -9,6 +9,7 @@ from pathlib import Path  # Make sure Path is imported
 from retriever.QuestionsAndAnswers.naiveQuestions import NaiveQuestions
 from retriever.QuestionsAndAnswers.nuancedQuestions import PaperEmbeddingAnalyzer, NuancedQuestions
 import re
+import time
 
 load_dotenv()
 
@@ -17,8 +18,70 @@ gemini_api_key = os.getenv("GEMINI_API_KEY")
 class QuestionAnswerer:
     def __init__(self,  message_output=None):
         self.questions_list = []   
-        self.relevant_papers_ids = [] 
+        self.relevant_papers_ids = []  # Now stores paper_id values
         self.message_output = message_output or print
+        self.gemini_calls_count = 0  # Track Gemini calls
+        self.max_gemini_calls = 6  # Budget limit
+    
+    def build_paper_content_fallback(self, paper, paper_text):
+        """
+        Build safe paper content with fallback priority:
+        1) fulltext if len > 800
+        2) abstract if len > 300
+        3) title + metadata synthetic summary
+        Returns (content, skip_reason)
+        """
+        # Priority 1: Full text
+        if paper_text and len(paper_text) > 800:
+            return paper_text, None
+        
+        # Priority 2: Abstract
+        abstract = paper.get("abstract", paper.get("content", ""))
+        if abstract and len(abstract) > 300:
+            return abstract, None
+        
+        # Priority 3: Synthetic summary from metadata
+        title = paper.get("title", "Unknown")
+        year = paper.get("year", "N/A")
+        venue = paper.get("venue", "N/A")
+        authors = paper.get("authors", "")
+        
+        # Look for policy lever keywords matched
+        policy_keywords = ["cash transfer", "training", "employment program", "subsidy"]
+        matched_keywords = [kw for kw in policy_keywords if kw in title.lower()]
+        
+        synthetic = f"Paper: {title}\nYear: {year}\nVenue: {venue}\nAuthors: {authors}"
+        if matched_keywords:
+            synthetic += f"\nKey policy signals: {', '.join(matched_keywords)}"
+        
+        if len(synthetic) >= 200:
+            return synthetic, None
+        
+        # Too little content - skip
+        return None, f"Insufficient content (< 200 chars) for paper: {title[:50]}"
+    
+    def gemini_call_with_backoff(self, model, paper_text, max_retries=2):
+        """
+        Call Gemini with exponential backoff on 429 rate limit errors.
+        """
+        for attempt in range(max_retries + 1):
+            try:
+                response = model.generate_content(paper_text)
+                return response
+            except Exception as e:
+                error_str = str(e)
+                if "429" in error_str or "Resource has been exhausted" in error_str:
+                    if attempt < max_retries:
+                        retry_delay = 30 * (2 ** attempt)  # 30s, 60s
+                        self.message(f"   ⚠️ Rate limit hit (429), retrying in {retry_delay}s...")
+                        time.sleep(retry_delay)
+                    else:
+                        self.message(f"   ❌ Rate limit exceeded after {max_retries} retries, skipping paper")
+                        return None
+                else:
+                    self.message(f"   ❌ Gemini error: {e}")
+                    return None
+        return None
 
     def message(self, text):
         """
@@ -49,7 +112,19 @@ class QuestionAnswerer:
             retString = retString[:-2] + retString[-1]
         return retString
         
-    def answer_question_gemini(self, questions, paper_text):
+    def answer_question_gemini(self, questions, paper_text, paper=None):
+        """
+        Answer questions for a paper. Now includes budget checking and content validation.
+        """
+        # Check budget
+        if self.gemini_calls_count >= self.max_gemini_calls:
+            self.message(f"⏹️ Reached max Gemini calls budget ({self.max_gemini_calls}), skipping remaining papers")
+            return {}
+        
+        # Validate content (must not be empty)
+        if not paper_text or len(paper_text.strip()) < 50:
+            self.message(f"⚠️ Paper content too short ({len(paper_text)} chars), skipping")
+            return {}
         
         genai.configure(api_key=gemini_api_key)
         # GEMINI SET UP
@@ -88,7 +163,15 @@ class QuestionAnswerer:
             generation_config=generation_config,
             system_instruction=prompt,
         )
-        response = model.generate_content(paper_text)
+        
+        # Increment call counter
+        self.gemini_calls_count += 1
+        
+        # Use backoff wrapper to handle rate limits
+        response = self.gemini_call_with_backoff(model, paper_text)
+        
+        if response is None:
+            return {}  # Skip this paper if rate limited
 
         response_cleaned = self.clean_json_string(response.text)
 
@@ -107,10 +190,19 @@ class QuestionAnswerer:
         # Run Naive Question class which identifies relevant papers and creates naive questions
         naive_questions = NaiveQuestions()
         self.relevant_papers_ids = naive_questions.run(user_query=user_query)
+        
+        # Store the timestamp for coordinated file generation
+        self.shared_timestamp = getattr(naive_questions, 'current_timestamp', None)
 
         # Find latest comparison question file and import it
         try:
-            files = list(Path(".").glob("comparison_questions_*.txt"))
+            # Check reports/questions first
+            questions_dir = Path("./reports/questions")
+            files = list(questions_dir.glob("comparison_questions_*.txt")) if questions_dir.exists() else []
+            
+            # Fallback to root directory for backward compatibility
+            if not files:
+                files = list(Path(".").glob("comparison_questions_*.txt"))
             
             if not files:
                 print("No comparison questions files found.")
@@ -133,13 +225,15 @@ class QuestionAnswerer:
             return
         
     
-    def generate_nuanced(self, external_contents, external_content_by_title):
+    def generate_nuanced(self, external_contents, external_content_by_paper_id):
         # This creates a file with nuanced for all relevant pappers 
         print("Generating nuanced questions.... ")
         self.message("🧐 Generating questions to capture the nuances of the retrieved papers ... ")
         embedding_analyzer = PaperEmbeddingAnalyzer()
-        analyzer = NuancedQuestions(embedding_analyzer)
-        analyzer.run(external_contents, external_content_by_title)
+        # Pass shared timestamp to nuanced questions
+        shared_timestamp = getattr(self, 'shared_timestamp', None)
+        analyzer = NuancedQuestions(embedding_analyzer, shared_timestamp=shared_timestamp)
+        analyzer.run(external_contents, external_content_by_paper_id)
         return
 
 
@@ -148,8 +242,13 @@ class QuestionAnswerer:
         """
         Retrieves and parses questions for a given paper_id from the most recent question results file.
         """
-        pattern = "question_results_*.jsonl"
-        files = glob.glob(pattern)
+        # Check reports/questions first
+        questions_dir = Path("./reports/questions")
+        files = list(questions_dir.glob("question_results_*.jsonl")) if questions_dir.exists() else []
+        
+        # Fallback to root directory for backward compatibility
+        if not files:
+            files = glob.glob("question_results_*.jsonl")
         
         if not files:
             raise FileNotFoundError("No question results files found.")
@@ -168,7 +267,7 @@ class QuestionAnswerer:
         # If no matching paper_id is found
         raise ValueError(f"Paper ID '{paper_id}' not found in {latest_file}")
 
-    def run(self, user_query, all_external_content, external_content_by_title):
+    def run(self, user_query, all_external_content, external_content_by_paper_id):
         print(f"\nStarting question answering script with naive and nuanced questions...")
         final_json = {}
 
@@ -185,13 +284,13 @@ class QuestionAnswerer:
             return
 
         # Modify hereee
-        self.generate_nuanced(all_external_content, external_content_by_title)
+        self.generate_nuanced(all_external_content, external_content_by_paper_id)
 
         self.message("📝 Starting to answer the questions generated for each relevant paper ...")
         # Answer questions for each paper
         for paper_id in self.relevant_papers_ids: 
             # If local paper
-            if paper_id not in external_content_by_title.keys():
+            if paper_id not in external_content_by_paper_id.keys():
                 paper_text = self.extract_text_from_pdf(paper_id)
                 self.message("... ⏩️ Answering question for {} ...".format(paper_id))  
 
@@ -209,7 +308,9 @@ class QuestionAnswerer:
             # Else, paper from semantic scholar
             else: 
                 print("\nReading extract from paper {} ...".format(paper_id))
-                paper_text = external_content_by_title[paper_id]
+                paper_text = external_content_by_paper_id[paper_id]
+                print(f"DEBUG: Content length for {paper_id}: {len(paper_text)} characters")
+                print(f"DEBUG: Content preview: {paper_text[:200]}...")
                 self.message("... ⏩️ Answering question for {} ...".format(paper_id))  
                 print("Answering questions for {}".format(paper_id))
             
@@ -223,9 +324,6 @@ class QuestionAnswerer:
                 
                 # Add the answers to the final JSON dictionary under the paper_id
                 final_json[paper_id] = answers
-
-                if 'what_is_the_title_of_the_paper' not in final_json[paper_id] or not final_json[paper_id]['what_is_the_title_of_the_paper']:
-                    final_json[paper_id]['what_is_the_title_of_the_paper'] = paper_id
 
         # Specify the filename and path to save the JSON
         output_path = os.path.join(os.getcwd(), "paper_answers.json")

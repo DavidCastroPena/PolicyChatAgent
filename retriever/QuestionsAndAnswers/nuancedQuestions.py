@@ -155,13 +155,20 @@ class PaperEmbeddingAnalyzer:
 #NOTA: el JSONL se genera con el nombre question results###
 
 class NuancedQuestions:
-    def __init__(self, embedding_analyzer):
+    def __init__(self, embedding_analyzer, shared_timestamp=None):
         # Configure the Gemini API
         genai.configure(api_key=gemini_api_key)
         self.model = genai.GenerativeModel("gemini-2.0-flash-exp")
         self.embedding_analyzer = embedding_analyzer
         self.PROJECT_DIR = Path(".")
-        self.output_file = self.PROJECT_DIR / f"question_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl"
+        
+        # Create reports/questions directory if it doesn't exist
+        questions_dir = Path("./reports/questions")
+        questions_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Use shared timestamp if provided, otherwise generate new one
+        timestamp = shared_timestamp or datetime.now().strftime('%Y%m%d_%H%M%S')
+        self.output_file = questions_dir / f"question_results_{timestamp}.jsonl"
 
         self.query_results_path = ""
 
@@ -172,8 +179,11 @@ class NuancedQuestions:
         # Pattern to match filenames and extract timestamp
         pattern = re.compile(r"combined_report_(\d{8}_\d{6})\.json")
 
-        # Find all JSON files matching the pattern
-        json_files = glob.glob(os.path.join(directory, "combined_report_*.jsonl"))
+        # Find all JSON files matching the pattern - check reports/combined first
+        json_files = glob.glob("./reports/combined/combined_report_*.jsonl")
+        if not json_files:
+            # Fallback to root directory for backward compatibility
+            json_files = glob.glob(os.path.join(directory, "combined_report_*.jsonl"))
 
         # Extract timestamps and find the most recent file
         most_recent_file = None

@@ -1,0 +1,56 @@
+services:
+  # Qdrant vector database service
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: policychat_qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    restart: unless-stopped
+    networks:
+      - policychat_network
+
+  # PolicyChat Streamlit application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: policychat_app
+    ports:
+      - "8501:8501"
+    volumes:
+      # Mount source code for hot reload during development
+      - .:/app
+      # Mount reports and papers directories
+      - ./reports:/app/reports
+      - ./papers:/app/papers
+      - ./downloaded_papers:/app/downloaded_papers
+    env_file:
+      - .env
+    environment:
+      # Override Qdrant host to use the qdrant service
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      # Enable LLM query rewriter (set to true to call LLM for query reformulation)
+      - USE_LLM_QUERY_REWRITER=true
+      # Pass through common LLM API keys. If you already have GEMINI_API_KEY in your host
+      # environment, GOOGLE_API_KEY will be set from it so the client libraries can pick it up.
+      - GEMINI_API_KEY
+      - GOOGLE_API_KEY=${GEMINI_API_KEY}
+      - GENAI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - qdrant
+    restart: unless-stopped
+    networks:
+      - policychat_network
+    command: streamlit run ux.py --server.port=8501 --server.address=0.0.0.0 --server.runOnSave=true
+
+volumes:
+  qdrant_storage:
+    driver: local
+
+networks:
+  policychat_network:
+    driver: bridge

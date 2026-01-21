@@ -42,14 +42,13 @@ class NaiveQuestions:
     def get_latest_query_results_file(self):
         """Find the most recent query results file."""
         try:
-            # First try looking in the main directory
-            files = list(self.PROJECT_DIR.glob("combined_report_*.jsonl"))
+            # First try looking in the reports/combined directory
+            reports_dir = Path("./reports/combined")
+            files = list(reports_dir.glob("combined_report_*.jsonl")) if reports_dir.exists() else []
             
+            # Fallback to main directory for backward compatibility
             if not files:
-                # If not found, try looking in a query_results subdirectory
-                query_results_dir = self.PROJECT_DIR / "combined_report"
-                if query_results_dir.exists():
-                    files = list(query_results_dir.glob("*.jsonl"))
+                files = list(self.PROJECT_DIR.glob("combined_report_*.jsonl"))
             
             if not files:
                 self.debug_directory_contents()
@@ -174,9 +173,14 @@ class NaiveQuestions:
 
         comparison_questions = str(comparison_questions)
 
-        # Save the generated questions
+        # Save the generated questions with timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        questions_file = self.PROJECT_DIR / f"comparison_questions_{timestamp}.txt"
+        
+        # Create reports/questions directory if it doesn't exist
+        questions_dir = Path("./reports/questions")
+        questions_dir.mkdir(parents=True, exist_ok=True)
+        
+        questions_file = questions_dir / f"comparison_questions_{timestamp}.txt"
 
         try:
             with open(questions_file, 'w', encoding='utf-8') as f:
@@ -186,6 +190,8 @@ class NaiveQuestions:
         except Exception as e:
             print(f"\nError saving questions: {e}")
 
+        # Store timestamp for coordinated saving
+        self.current_timestamp = timestamp
         return relevant_papers_ids
         
 

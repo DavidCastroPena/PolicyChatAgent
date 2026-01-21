@@ -12,6 +12,7 @@ class Finder:
         self.option = None
         self.papers_folder = None
         self.local_papers = []
+        self.topic = None
         self.output_file = output_file
 
     def welcome_user(self):
@@ -27,6 +28,30 @@ class Finder:
         self.option = input("Enter 1 or 2: ").strip()
         if self.option not in {"1", "2"}:
             raise ValueError("Invalid option. Please choose either 1 or 2.")
+
+    def ask_topic(self):
+        """Ask the user to choose a policy topic."""
+        print("\nChoose a policy topic:")
+        print("1. Unemployment")
+        print("2. Female Unemployment")
+        print("3. Education")
+        print("4. Poverty")
+        print("5. Poverty Reduction")
+        topic_choice = input("Enter 1-5: ").strip()
+        
+        topic_map = {
+            "1": "unemployment",
+            "2": "female_unemployment",
+            "3": "education",
+            "4": "poverty",
+            "5": "poverty_reduction"
+        }
+        
+        if topic_choice not in topic_map:
+            raise ValueError("Invalid topic. Please choose 1-5.")
+        
+        self.topic = topic_map[topic_choice]
+        print(f"Topic set to: {self.topic}")
 
     def set_papers_folder(self):
         """Ask the user for the location of their papers folder."""
@@ -60,7 +85,8 @@ class Finder:
             "query": self.query,
             "option": self.option,
             "papers_folder": self.papers_folder,
-            "local_papers": self.local_papers
+            "local_papers": self.local_papers,
+            "topic": self.topic
         }
         with open(self.output_file, 'w') as f:
             json.dump(user_inputs, f, indent=4)
@@ -70,6 +96,7 @@ class Finder:
         """Run the entire user input collection process."""
         self.welcome_user()
         self.ask_analysis_option()
+        self.ask_topic()
         self.set_papers_folder()
         self.select_local_papers()
         self.save_user_inputs()

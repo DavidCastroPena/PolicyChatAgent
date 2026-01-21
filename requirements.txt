@@ -31,7 +31,7 @@ networkx==3.2.1
 numpy==2.0.2
 google-generativeai
 python-dotenv
-orjson==3.10.10
+orjson==0.10.10
 packaging==24.1
 portalocker==2.10.1
 protobuf==5.28.3
