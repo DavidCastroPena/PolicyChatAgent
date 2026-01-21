@@ -1,3 +1,16 @@
+# Ignore local environment files and Streamlit secrets
+.env
+.env.local
+.env.*.local
+.streamlit/
+
+# Python virtual envs
+.venv/
+venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 cs224v
 .env
 .venv/
