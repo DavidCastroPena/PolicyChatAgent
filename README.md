@@ -1,4 +1,4 @@
-# PolicyChat — An AI Copilot for Evidence-Based Policy Research 🤖📄⚖️
+# PolicyChat — An AI Copilot for Policymakers 🤖📄⚖️
 
 PolicyChat is an AI-powered research assistant that helps policymakers, analysts, and researchers discover, evaluate, and synthesize high-quality academic evidence for public policy decisions.
 
