@@ -9,8 +9,13 @@ import sys
 import io
 import re
 import markdown
-from retriever.coordinator import Coordinator
 
+
+@st.cache_resource
+def load_embedding_model():
+    """Load and cache the embedding model to avoid reloading on every page refresh."""
+    from retriever.Embbedingator import Embbedingator
+    return Embbedingator()
 
 
 class PolicyChatbot:
@@ -146,17 +151,27 @@ class PolicyChatbot:
     
 
 def main():
+    # OPTIMIZATION: Set page config FIRST (before any other Streamlit commands)
+    st.set_page_config(page_title="PolicyChat", page_icon="🤖", layout="wide")
+    
+    # OPTIMIZATION: Show loading state immediately while session initializes
+    if 'initialized' not in st.session_state:
+        with st.spinner('🚀 Initializing PolicyChat...'):
+            st.session_state.initialized = True
+            st.session_state.chatbot = None
+            st.session_state.messages = []
+    
     def message_output(text):
         # Add the message to the Streamlit session state messages
-        st.session_state.messages.append({
-            "role": "assistant", 
-            "content": text
-        })
-        # Optional: if you want to display the message immediately
-        with st.chat_message("assistant"):
-            st.write(text)
+        if 'messages' in st.session_state:
+            st.session_state.messages.append({
+                "role": "assistant", 
+                "content": text
+            })
+            # Optional: if you want to display the message immediately
+            with st.chat_message("assistant"):
+                st.write(text)
 
-    st.set_page_config(page_title="PolicyChat", page_icon="🤖", layout="wide")
     st.title("PolicyChat: Your AI Copilot for Policy Research 🤖 📄 ⚖️")
 
     # Sidebar: external search and API key
@@ -164,25 +179,48 @@ def main():
         st.header("External Search")
         external_search = st.checkbox("Enable external search (Semantic Scholar)", value=True)
         max_results = st.number_input("Max external results", min_value=1, max_value=50, value=10)
+        
+        st.header("Policy Domain")
+        topic = st.selectbox(
+            "Select policy topic for evidence scoring",
+            [
+                "unemployment",
+                "female_unemployment",
+                "education",
+                "poverty",
+                "poverty_reduction"
+            ],
+            index=0,
+            help="This helps PolicyChat score and rank papers based on topic-specific quality criteria."
+        )
+        
+        st.header("API & Local Files")
         api_key_input = st.text_input("Semantic Scholar API key (optional)", type="password")
         optional_local_folder = st.text_input("Optional local papers folder (leave blank to skip)")
         st.markdown("---")
         st.caption("If you enable external search, the app will query Semantic Scholar and may download open-access PDFs for highly relevant papers.")
 
-    # Initialize or retrieve session state
-    if 'chatbot' not in st.session_state:
+    # OPTIMIZATION: Initialize session state components only once (prevents reconnection issues)
+    if 'chatbot' not in st.session_state or st.session_state.chatbot is None:
         st.session_state.chatbot = PolicyChatbot()
     
-    # Initialize chat history
-    if 'messages' not in st.session_state:
+    # Initialize chat history only on first load
+    if 'messages' not in st.session_state or len(st.session_state.messages) == 0:
         st.session_state.messages = []
         
         # Add initial assistant greeting
-        initial_greeting = st.session_state.chatbot.generate_response()
-        st.session_state.messages.append({
-            "role": "assistant", 
-            "content": initial_greeting
-        })
+        try:
+            initial_greeting = st.session_state.chatbot.generate_response()
+            st.session_state.messages.append({
+                "role": "assistant", 
+                "content": initial_greeting
+            })
+        except Exception as e:
+            # Fallback greeting if chatbot initialization fails
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": "Hello! I'm PolicyChat, ready to explore some policy insights?"
+            })
 
     # Display chat messages
     for message in st.session_state.messages:
@@ -221,7 +259,8 @@ def main():
             # Prepare user inputs for Coordinator
             user_inputs = {
                 'query': chatbot_state['query'],
-                'option': chatbot_state['analysis_option']
+                'option': chatbot_state['analysis_option'],  # Changed from 'analysis_option' to 'option'
+                'topic': topic  # Add topic from sidebar
             }
             if chatbot_state.get('papers_folder'):
                 user_inputs['papers_folder'] = chatbot_state['papers_folder']
@@ -241,35 +280,70 @@ def main():
                 json.dump(user_inputs, f, indent=4)
             
             try:
-                # Call Coordinator
+                # Call Coordinator (import only when needed to speed up initial load)
+                from retriever.coordinator import Coordinator
                 coordinator = Coordinator(message_output=message_output)
-                coordinator.run_pipeline()
+                results = coordinator.run_pipeline()
                 
-                # Find the most recent memo file
-                directory_path = os.getcwd()
-                memo_files = [f for f in os.listdir(directory_path) if f.startswith('memo_') and f.endswith('.md')]
-                
-                if memo_files:
-                    # Sort files by modification time, most recent first
-                    most_recent_memo = max(memo_files, key=lambda f: os.path.getmtime(os.path.join(directory_path, f)))
-                    markdown_file_path = os.path.join(directory_path, most_recent_memo)
+                # Display top papers with EQR scores
+                if results and results.get("top_papers"):
+                    st.subheader("📊 Top Evidence (Ranked by Quality)")
+                    st.markdown("Papers are scored using Evidence Quality Rating (EQR) based on methodology, data quality, recency, citations, and topic relevance.")
                     
+                    for i, paper in enumerate(results["top_papers"][:5], start=1):
+                        tier_emoji = {"A": "🥇", "B": "🥈", "C": "🥉", "D": "📄"}.get(paper.get("tier", "D"), "📄")
+                        with st.expander(f"{tier_emoji} {i}. {paper.get('title', 'Unknown Title')[:80]}... (Tier {paper.get('tier', 'D')} | EQR {paper.get('eqr', 0)})"):
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                st.markdown(f"**Venue:** {paper.get('venue', 'Unknown')}")
+                                st.markdown(f"**Year:** {paper.get('year', 'N/A')}")
+                                st.markdown(f"**Citations:** {paper.get('citation_count', 0)}")
+                            with col2:
+                                st.markdown(f"**Relevance Score:** {paper.get('query_similarity', 0):.2f}")
+                                st.markdown(f"**Rank Score:** {paper.get('rank_score', 0):.2f}")
+                                if paper.get('url'):
+                                    st.markdown(f"[View Paper]({paper['url']})")
+                            
+                            if paper.get("eqr_reasons"):
+                                st.markdown("**✅ Quality Indicators:**")
+                                for r in paper.get("eqr_reasons", []):
+                                    st.markdown(f"- {r}")
+                            
+                            if paper.get("eqr_warnings"):
+                                st.markdown("**⚠️ Limitations:**")
+                                for w in paper.get("eqr_warnings", []):
+                                    st.markdown(f"- {w}")
+                
+                # Find the memo from coordinator results (no CWD scan)
+                memo_path = results.get("memo_path") if results else None
+                
+                if memo_path and os.path.exists(memo_path):
                     # Read and display Markdown file
-                    if os.path.exists(markdown_file_path):
-                        with open(markdown_file_path, 'r') as file:
-                            markdown_content = file.read()
-                        
-                        # Convert Markdown to HTML
-                        html_content = markdown.markdown(markdown_content, extensions=['fenced_code', 'tables'])
-                        
-                        # Create an expander for the Markdown content
-                        with st.expander("Policy Memo"):
-                            st.markdown(html_content, unsafe_allow_html=True)
+                    with open(memo_path, 'r', encoding='utf-8') as file:
+                        markdown_content = file.read()
+                    
+                    # Convert Markdown to HTML
+                    html_content = markdown.markdown(markdown_content, extensions=['fenced_code', 'tables'])
+                    
+                    # Create an expander for the Markdown content
+                    with st.expander("Policy Memo"):
+                        st.markdown(html_content, unsafe_allow_html=True)
                 else:
                     st.warning("No memo file found.")
                 
             except Exception as e:
                 st.error(f"Error in pipeline: {e}")
+                # Log full traceback for debugging
+                import traceback
+                st.code(traceback.format_exc())
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        # Catch any top-level errors and display them gracefully
+        st.error(f"⚠️ Application Error: {e}")
+        st.info("Try refreshing the page. If the issue persists, check Docker logs.")
+        import traceback
+        with st.expander("🔍 Debug Information"):
+            st.code(traceback.format_exc())

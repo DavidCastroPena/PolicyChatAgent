@@ -1,0 +1,816 @@
+[
+  {
+    "stable_id": "doi:10.1109/icrito61523.2024.10522226",
+    "title": "Cloud-Based Passenger Experience Management in Bus Fare Ticketing Systems Using Random Forest Algorithm",
+    "year": 2024,
+    "authors": [
+      "Vadivel M",
+      "V. B. Marin",
+      "S. Balasubramani",
+      "S. Hemalatha",
+      "S. Murugan",
+      "S. Velmurugan"
+    ],
+    "url": "https://www.semanticscholar.org/paper/e5b569e9b5dffc031fdbd2b165ee241f7ba8abff",
+    "citation_count": 57,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "2024 11th International Conference on Reliability, Infocom Technologies and Optimization (Trends and Future Directions) (ICRITO)",
+    "retrieval_rank_score": 10.53
+  },
+  {
+    "stable_id": "doi:10.62225/2583049x.2025.5.6.5485",
+    "title": "A Systematic Review of Project Finance and Public Private Partnership Structures for Infrastructure Development",
+    "year": 2025,
+    "authors": [
+      "Olaniyi Oluwaseun Oladepo",
+      "Kehinde Oyediji"
+    ],
+    "url": "https://www.semanticscholar.org/paper/917c88a7dae4869d7f31e620c004d5603422c3da",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "International Journal of Advanced Multidisciplinary Research and Studies",
+    "retrieval_rank_score": 10.0
+  },
+  {
+    "stable_id": "doi:10.1080/10630732.2025.2466103",
+    "title": "Which Factors Affect Acceptance of Public Space Surveillance? A Systematic Literature Review",
+    "year": 2025,
+    "authors": [
+      "Luke Bates",
+      "P. Saskia Bayerl",
+      "Babak Akhgar"
+    ],
+    "url": "https://www.semanticscholar.org/paper/f7d36e10866f741d4973d54862969ad234318db6",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "The Journal of urban technology",
+    "retrieval_rank_score": 10.0
+  },
+  {
+    "stable_id": "doi:10.1109/tits.2020.3017505",
+    "title": "An Intelligent Video Analysis Method for Abnormal Event Detection in Intelligent Transportation Systems",
+    "year": 2021,
+    "authors": [
+      "Shaohua Wan",
+      "Xiaolong Xu",
+      "Tian Wang",
+      "Zonghua Gu"
+    ],
+    "url": "https://www.semanticscholar.org/paper/8fd313d86c714b923d1795a344f89665b6635050",
+    "citation_count": 139,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "IEEE transactions on intelligent transportation systems (Print)",
+    "retrieval_rank_score": 7.29
+  },
+  {
+    "stable_id": "doi:10.3390/en9070483",
+    "title": "Initial Energy Logistics Cost Analysis for Stationary, Quasi-Dynamic, and Dynamic Wireless Charging Public Transportation Systems",
+    "year": 2016,
+    "authors": [
+      "Y. Jang",
+      "Seungmin Jeong",
+      "Min Seok Lee"
+    ],
+    "url": "https://www.semanticscholar.org/paper/97eda42a8bf02775473f95db0ba5aecd7ed87d64",
+    "citation_count": 123,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Energies",
+    "retrieval_rank_score": 7.19
+  },
+  {
+    "stable_id": "doi:10.29119/1641-3466.2025.222.38",
+    "title": "From vision to reality: what shapes the future of autonomous public transport in Białystok",
+    "year": 2025,
+    "authors": [
+      "Natalia Zazulka"
+    ],
+    "url": "https://www.semanticscholar.org/paper/faa93e6c340a1d85b76fcfee11c8da3d2e70efcb",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Scientific Papers of Silesian University of Technology. Organization and Management Series",
+    "retrieval_rank_score": 7.0
+  },
+  {
+    "stable_id": "doi:10.1109/jsen.2022.3223297",
+    "title": "Sensing Technologies for Crowd Management, Adaptation, and Information Dissemination in Public Transportation Systems: A Review",
+    "year": 2020,
+    "authors": [
+      "D. Darsena",
+      "G. Gelli",
+      "I. Iudice",
+      "F. Verde"
+    ],
+    "url": "https://www.semanticscholar.org/paper/ffa3235384d90e1343862b1b1b8840c4fa2f8085",
+    "citation_count": 33,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "IEEE Sensors Journal",
+    "retrieval_rank_score": 6.06
+  },
+  {
+    "stable_id": "doi:10.3390/app10165400",
+    "title": "Urban Mobility Data Analysis for Public Transportation Systems: A Case Study in Montevideo, Uruguay",
+    "year": 2020,
+    "authors": [
+      "R. Massobrio",
+      "Sergio Nesmachnow"
+    ],
+    "url": "https://www.semanticscholar.org/paper/00bd349cfee1e5f06affe73e1b27e4f83d166321",
+    "citation_count": 25,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Applied Sciences",
+    "retrieval_rank_score": 5.83
+  },
+  {
+    "stable_id": "doi:10.3390/ijerph192316224",
+    "title": "Spatial Accessibility Analysis of Medical Facilities Based on Public Transportation Networks",
+    "year": 2022,
+    "authors": [
+      "Y. Liu",
+      "H. Gu",
+      "Yuyu Shi"
+    ],
+    "url": "https://www.semanticscholar.org/paper/b175f12c2f64e2168bd016d307c9a7c56d0cbe4e",
+    "citation_count": 23,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "International Journal of Environmental Research and Public Health",
+    "retrieval_rank_score": 5.76
+  },
+  {
+    "stable_id": "doi:10.3390/ijgi12050180",
+    "title": "GIS Analysis of Adequate Accessibility to Public Transportation in Metropolitan Areas",
+    "year": 2023,
+    "authors": [
+      "Sultan Alamri",
+      "Kiki Adhinugraha",
+      "Nasser Allheeib",
+      "D. Taniar"
+    ],
+    "url": "https://www.semanticscholar.org/paper/9d32c7e89d6e48e75ff8c2f67c3eabace229d819",
+    "citation_count": 17,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "ISPRS Int. J. Geo Inf.",
+    "retrieval_rank_score": 5.51
+  },
+  {
+    "stable_id": "doi:10.1177/0361198119827578",
+    "title": "What Does the Future of Automated Driving Mean for Public Transportation?",
+    "year": 2019,
+    "authors": [
+      "Ke Stark",
+      "Kay Gade",
+      "D. Heinrichs"
+    ],
+    "url": "https://www.semanticscholar.org/paper/d38c9090f5afef8df377afcad588f91efd8faabc",
+    "citation_count": 16,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Transportation Research Record",
+    "retrieval_rank_score": 5.46
+  },
+  {
+    "stable_id": "doi:10.1080/25741292.2021.1930689",
+    "title": "Enhancing policy capacity through Co-design: the case of local public transportation in the Philippines",
+    "year": 2021,
+    "authors": [
+      "Revka E. Perez",
+      "Anne Clarice L. Ng",
+      "N. Tiglao"
+    ],
+    "url": "https://www.semanticscholar.org/paper/1efbcfe3e21262081332b69e8a6b588e903140ef",
+    "citation_count": 15,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Policy Design and Practice",
+    "retrieval_rank_score": 5.41
+  },
+  {
+    "stable_id": "doi:10.3390/su14148247",
+    "title": "Comparing Micromobility with Public Transportation Trips in a Data-Driven Spatio-Temporal Analysis",
+    "year": 2022,
+    "authors": [
+      "F. Schwinger",
+      "Baran Tanriverdi",
+      "M. Jarke"
+    ],
+    "url": "https://www.semanticscholar.org/paper/61efbbe3ca35988993b7fddcecb44bfd6bbf7b8f",
+    "citation_count": 14,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Sustainability",
+    "retrieval_rank_score": 5.35
+  },
+  {
+    "stable_id": "doi:10.3390/su14169902",
+    "title": "Equitable City in an Aging Society: Public Transportation-Based Primary Care Accessibility in Seoul, Korea",
+    "year": 2022,
+    "authors": [
+      "Yoon-Gyu Yoon",
+      "JIn-Gyu Park"
+    ],
+    "url": "https://www.semanticscholar.org/paper/64aa646d189eb72bdb451eee25fd2063f9dbb80d",
+    "citation_count": 11,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Sustainability",
+    "retrieval_rank_score": 5.16
+  },
+  {
+    "stable_id": "doi:10.31603/ae.11285",
+    "title": "Fueling the Future: The Case for Heavy-Duty Fuel Cell Electric Vehicles in Sustainable Transportation",
+    "year": 2024,
+    "authors": [
+      "I. Setiawan",
+      "M. Setiyo"
+    ],
+    "url": "https://www.semanticscholar.org/paper/43782bdd361179f81827b81286e822e749e58075",
+    "citation_count": 11,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Automotive Experiences",
+    "retrieval_rank_score": 5.16
+  },
+  {
+    "stable_id": "doi:10.1007/s12469-023-00342-7",
+    "title": "Merging transport network companies and taxis in Curitiba’s BRT system",
+    "year": 2023,
+    "authors": [
+      "R. Medeiros",
+      "Fábio Duarte",
+      "I. Bojic",
+      "Yang Xu",
+      "Paolo Santi",
+      "Carlo Ratti"
+    ],
+    "url": "https://www.semanticscholar.org/paper/8bd41e2de2f5a6968b316ece5fe44141196d6474",
+    "citation_count": 10,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Public Transport",
+    "retrieval_rank_score": 5.08
+  },
+  {
+    "stable_id": "doi:10.1177/10442073231165773",
+    "title": "Same Network, Same Access to Urban Opportunities? Accessibility Via Public Transportation for Wheelchair Users",
+    "year": 2023,
+    "authors": [
+      "Diego Hernández",
+      "Santiago Rodriguez"
+    ],
+    "url": "https://www.semanticscholar.org/paper/98daa0ae39bb99caf02de5502b49e309eae860a5",
+    "citation_count": 9,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Journal of Disability Policy Studies",
+    "retrieval_rank_score": 5.0
+  },
+  {
+    "stable_id": "doi:10.1108/978-1-83909-710-220211006",
+    "title": "Technology and the Future of Customer Experience",
+    "year": 2021,
+    "authors": [
+      "Vandana Srivastava",
+      "Sanjeev Kishore",
+      "Deepika Dhingra"
+    ],
+    "url": "https://www.semanticscholar.org/paper/281bfb9ad2278c89a9028cc8b8bdec8550542b9c",
+    "citation_count": 9,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Crafting Customer Experience Strategy",
+    "retrieval_rank_score": 5.0
+  },
+  {
+    "stable_id": "doi:10.3390/su151712873",
+    "title": "Estimating Public Transportation Accessibility in Metropolitan Areas: A Case Study and Comparative Analysis",
+    "year": 2023,
+    "authors": [
+      "Haitao Su",
+      "Menghan Li",
+      "Xiaofeng Zhong",
+      "Kai Zhang",
+      "Jingkai Wang"
+    ],
+    "url": "https://www.semanticscholar.org/paper/ffb879fb64494c52a1457f4e4838867dda02c49a",
+    "citation_count": 8,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Sustainability",
+    "retrieval_rank_score": 4.91
+  },
+  {
+    "stable_id": "doi:10.1088/1755-1315/1039/1/012044",
+    "title": "Spatial Analysis of Public Transportation Accessibility for Pedestrian in Central Jakarta",
+    "year": 2022,
+    "authors": [
+      "F. A’rachman",
+      "C. Setiawan",
+      "Warnadi",
+      "N. Insani",
+      "S. Hijrawadi"
+    ],
+    "url": "https://www.semanticscholar.org/paper/322db0eb29139c32613432e2b2e50fa5e68255b1",
+    "citation_count": 7,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "IOP Conference Series: Earth and Environment",
+    "retrieval_rank_score": 4.81
+  },
+  {
+    "stable_id": "doi:10.1787/df75f80e-en",
+    "title": "How Mobility as a Service Impacts Public Transport Business Models",
+    "year": 2020,
+    "authors": [
+      "C. Mulley",
+      "J. Nelson"
+    ],
+    "url": "https://www.semanticscholar.org/paper/cbe3e0dd4c1b1ef416800be7717bd2b0ef81cc40",
+    "citation_count": 7,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "",
+    "retrieval_rank_score": 4.81
+  },
+  {
+    "stable_id": "doi:10.3390/su151914561",
+    "title": "Big Data Analysis for Travel Time Characterization in Public Transportation Systems",
+    "year": 2023,
+    "authors": [
+      "S. Nesmachnow",
+      "R. Massobrio",
+      "Santiago Guridi",
+      "Santiago Olmedo",
+      "A. Tchernykh"
+    ],
+    "url": "https://www.semanticscholar.org/paper/b63618fa2d647b023ed56bae0d8ea38c3f5d56bb",
+    "citation_count": 6,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Sustainability",
+    "retrieval_rank_score": 4.69
+  },
+  {
+    "stable_id": "doi:10.1007/s12469-023-00332-9",
+    "title": "Extended review of multi-agent solutions to Advanced Public Transportation Systems challenges",
+    "year": 2023,
+    "authors": [
+      "Flavien Balbo",
+      "René Mandiau",
+      "Mahdi Zargayouna"
+    ],
+    "url": "https://www.semanticscholar.org/paper/b44718ba83324dfab3fe38d5f2c797ed8b695617",
+    "citation_count": 6,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Public Transport",
+    "retrieval_rank_score": 4.69
+  },
+  {
+    "stable_id": "doi:10.3390/su16219354",
+    "title": "Decarbonizing Public Transportation: A Multi-Criteria Comparative Analysis of Battery Electric Buses and Fuel Cell Electric Buses",
+    "year": 2024,
+    "authors": [
+      "A. Eliyan",
+      "Mohamed Haouari",
+      "A. Sleiti"
+    ],
+    "url": "https://www.semanticscholar.org/paper/fed99067e371b505332459ebf5aedae03e5a0e08",
+    "citation_count": 6,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Sustainability",
+    "retrieval_rank_score": 4.69
+  },
+  {
+    "stable_id": "doi:10.3389/fbuil.2022.940740",
+    "title": "Land transportation management policy in tarakan public economy",
+    "year": 2022,
+    "authors": [
+      "Ing Daud Nawir",
+      "Rahmat Faizal",
+      "Achmad Zultan Mansyur",
+      "Riinawati Riinawati",
+      "Usman Jayadi"
+    ],
+    "url": "https://www.semanticscholar.org/paper/b65a4c8508e9084c2cdd335fb8068bf0b438c00e",
+    "citation_count": 5,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Frontiers in Built Environment",
+    "retrieval_rank_score": 4.56
+  },
+  {
+    "stable_id": "doi:10.1145/3473682.3480265",
+    "title": "Attitudes Towards Autonomous Public Transportation",
+    "year": 2021,
+    "authors": [
+      "Henrik Detjen",
+      "Irawan Nurhas",
+      "Stefan Geisler"
+    ],
+    "url": "https://www.semanticscholar.org/paper/4da615137e91b15d120464efc9023cf8077e8f60",
+    "citation_count": 5,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "International Conference on Automotive User Interfaces and Interactive Vehicular Applications",
+    "retrieval_rank_score": 4.56
+  },
+  {
+    "stable_id": "doi:10.3844/jcssp.2023.1190.1202",
+    "title": "Spatial Analysis of Accessibility for Public Transportation, A Case Study in Jakarta, Bus Rapid Transit System (Transjakarta), Indonesia",
+    "year": 2023,
+    "authors": [
+      "A. Hardi",
+      "Abdulkader Ali Murad"
+    ],
+    "url": "https://www.semanticscholar.org/paper/010f6146191f5baac1b0f04ea052726e3566be1a",
+    "citation_count": 4,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Journal of Computer Science",
+    "retrieval_rank_score": 4.4
+  },
+  {
+    "stable_id": "doi:10.14311/290",
+    "title": "Models of Financing and Available Financial Resources for Transport Infrastructure Projects",
+    "year": 2001,
+    "authors": [
+      "O. Pokorná",
+      "D. Mocková"
+    ],
+    "url": "https://www.semanticscholar.org/paper/4e807460d8c959fed323e6a5cd60f2af23f5be71",
+    "citation_count": 4,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "",
+    "retrieval_rank_score": 4.4
+  },
+  {
+    "stable_id": "doi:10.1088/1755-1315/992/1/012007",
+    "title": "Smart public transportation: A future framework for sustainable new cities (Case study Greater Cairo)",
+    "year": 2022,
+    "authors": [
+      "Hayam M Omayer"
+    ],
+    "url": "https://www.semanticscholar.org/paper/8d6cf6fcd51021b8711db793775e42ec0baef0e1",
+    "citation_count": 4,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "IOP Conference Series: Earth and Environment",
+    "retrieval_rank_score": 4.4
+  },
+  {
+    "stable_id": "doi:10.1016/j.techfore.2018.11.012",
+    "title": "To use or not to use, that is the question: Analysis of the determining factors for using NFC mobile payment systems in public transportation",
+    "year": 2019,
+    "authors": [
+      "F. Liébana-Cabanillas",
+      "S. Molinillo",
+      "Miguel Ruiz-Montañez"
+    ],
+    "url": "https://www.semanticscholar.org/paper/515653e3e4d34d558130aec68fdadbb00cd802ca",
+    "citation_count": 141,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Technological forecasting & social change",
+    "retrieval_rank_score": 4.3
+  },
+  {
+    "stable_id": "doi:10.1186/s12544-024-00673-x",
+    "title": "Understanding the impact of COVID-19 on mobility behavior of public transport passengers: the case of Metropolitan Area of Porto",
+    "year": 2024,
+    "authors": [
+      "Marta Campos Ferreira",
+      "Hugo Fernandes",
+      "Thiago Sobral",
+      "T. G. Dias"
+    ],
+    "url": "https://www.semanticscholar.org/paper/6f0c4dc802789b83153fa7e872d2cc9bcd35b6a2",
+    "citation_count": 3,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "European Transport Research Review",
+    "retrieval_rank_score": 4.2
+  },
+  {
+    "stable_id": "doi:10.26552/com.c.2021.3.a137-a149",
+    "title": "Electrification of Public Transport Bus Fleet: Identification of Business and Financing Models",
+    "year": 2021,
+    "authors": [
+      "G. Dydkowski",
+      "Jozef Gnap",
+      "A. Urbanek"
+    ],
+    "url": "https://www.semanticscholar.org/paper/83922d5c2b205613c2fa1725dce77f491f889d4a",
+    "citation_count": 3,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Communications - Scientific letters of the University of Zilina",
+    "retrieval_rank_score": 4.2
+  },
+  {
+    "stable_id": "doi:10.52783/tjjpt.v44.i4.944",
+    "title": "Perception-Satisfaction Based Quality Assessment of Public Transportation Services using SERVQUAL Model.",
+    "year": 2023,
+    "authors": [
+      "Sunil R. Kewate, Vivek R. Gandhewar"
+    ],
+    "url": "https://www.semanticscholar.org/paper/a5c70a3b48c9e0df3742411b10902a44be5374f2",
+    "citation_count": 3,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Tuijin Jishu/Journal of Propulsion Technology",
+    "retrieval_rank_score": 4.2
+  },
+  {
+    "stable_id": "doi:10.48008/ngji.1745",
+    "title": "Impact of fear of crimes on public transport usage: A case study of Delhi",
+    "year": 2020,
+    "authors": [
+      "R. Dubey"
+    ],
+    "url": "https://www.semanticscholar.org/paper/c1576448be52ca3f470729cc62006bd5a79e8e7d",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "",
+    "retrieval_rank_score": 3.6
+  },
+  {
+    "stable_id": "doi:10.2139/ssrn.3579318",
+    "title": "Is the era of public urban transport over?",
+    "year": 2020,
+    "authors": [
+      "D. Danilenko"
+    ],
+    "url": "https://www.semanticscholar.org/paper/dfb5dedda884d902d73eec408259a3d437397283",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Social Science Research Network",
+    "retrieval_rank_score": 3.6
+  },
+  {
+    "stable_id": "doi:10.59188/eduvest.v5i3.1747",
+    "title": "Evaluation of Development Policy and Increased Integrated Public Transportation in Bandung City",
+    "year": 2025,
+    "authors": [
+      "Andrian Surahman",
+      "Heru Nurasa",
+      "Dadang Enjat Munajat"
+    ],
+    "url": "https://www.semanticscholar.org/paper/bae4b6d643c2d2a7cf71de085f063cb8259b2184",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Eduvest - Journal Of Universal Studies",
+    "retrieval_rank_score": 3.6
+  },
+  {
+    "stable_id": "doi:10.53625/ijss.v1i1.31",
+    "title": "POLICY EFFECTIVENESS OF COMMUNITY-BASED WASTE MANAGEMENT IN THE CITY KEDIRI",
+    "year": 2021,
+    "authors": [
+      "Yenik Pujowati"
+    ],
+    "url": "https://www.semanticscholar.org/paper/4b549f5d18c13220b03c6795b183724b71a82e35",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "International journal of social science",
+    "retrieval_rank_score": 3.6
+  },
+  {
+    "stable_id": "doi:10.54660/ijmor.2025.4.4.148-157",
+    "title": "Shaping Sustainable Public Transport in Nepal: Insights from Global Developing Cities",
+    "year": 2025,
+    "authors": [
+      "Sanjay Luitel",
+      "Trishna Gharti Magar",
+      "Kalpana Budha Magar",
+      "A. K. Subedi",
+      "Sajana Adhikari",
+      "Kuber Nepali"
+    ],
+    "url": "https://www.semanticscholar.org/paper/255bf03631aabcaf10e70375d77eba18a41e517a",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "International Journal of Future Engineering Innovations",
+    "retrieval_rank_score": 3.6
+  },
+  {
+    "stable_id": "doi:10.3389/fpubh.2024.1426863",
+    "title": "A protocol for mobilising novel finance models for collaborative health promotion and disease prevention initiatives: taking a smart capacitating investment approach in the Invest4Health project",
+    "year": 2025,
+    "authors": [
+      "Joanna Lane",
+      "R. T. Edwards",
+      "Balázs Babarczy",
+      "Holly Whiteley",
+      "Vidya Oruganti",
+      "M. Rutten-van Mölken",
+      "C. Costongs",
+      "Anant Jani",
+      "Sarah Wordsworth",
+      "A. Maassen",
+      "A. Tsiachristas",
+      "Jacob Davies",
+      "Bengt Stavenow",
+      "Jolanda van Vliet",
+      "Steve Wright",
+      "L. Papartyte",
+      "J. C. Camaradou",
+      "Rositsa Koleva-Kolarova"
+    ],
+    "url": "https://www.semanticscholar.org/paper/ec7f1fd536998df71255d932fc1b22c70f5356e4",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Frontiers in Public Health",
+    "retrieval_rank_score": 3.6
+  },
+  {
+    "stable_id": "doi:10.61173/fjddge83",
+    "title": "The Application of Near Field Communication (NFC) in Public Transportation: Current Practices, Challenges, and Future Prospects",
+    "year": 2024,
+    "authors": [
+      "Yigeng Liu"
+    ],
+    "url": "https://www.semanticscholar.org/paper/19630c3dcc69d3146e0701ab74a6584cffe4ab99",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Science and Technology of Engineering, Chemistry and Environmental Protection",
+    "retrieval_rank_score": 3.6
+  },
+  {
+    "stable_id": "doi:10.55057/ijbtm.2023.5.s1.11",
+    "title": "Examining Safety & Security, Reliability and Punctuality of Public Transportation Quality Services: Cases of Kuala Lumpur, Malaysia",
+    "year": 2023,
+    "authors": [],
+    "url": "https://www.semanticscholar.org/paper/8e1a66cb5d00cb13191722436f67be1dd404e122",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "International Journal of Business and Technology Management",
+    "retrieval_rank_score": 3.6
+  },
+  {
+    "stable_id": "doi:10.1145/3569219.3569419",
+    "title": "Designing Accessible Digital Services for the Future Public Transportation: Towards Lighter Testbed (LiTe)",
+    "year": 2022,
+    "authors": [
+      "Tero Avellan",
+      "Alisa Burova",
+      "Juhani Linna",
+      "Juho Kuusikko",
+      "M. Turunen"
+    ],
+    "url": "https://www.semanticscholar.org/paper/f5ac4f52b9a71d898f50669ba7b04e0b58456936",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "International Conference on Entertainment and Media in the Ubiquitous Era",
+    "retrieval_rank_score": 3.6
+  },
+  {
+    "stable_id": "doi:10.5198/jtlu.2018.1370",
+    "title": "A social equity analysis of the U.S. public transportation system based on job accessibility",
+    "year": 2018,
+    "authors": [
+      "Armin Yeganeh",
+      "R. Hall",
+      "A. Pearce",
+      "S. Hankey"
+    ],
+    "url": "https://www.semanticscholar.org/paper/d12dd625278bd980d214759ddad358da883538af",
+    "citation_count": 52,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Journal of Transport and Land Use",
+    "retrieval_rank_score": 3.45
+  },
+  {
+    "stable_id": "doi:10.1016/j.physa.2020.125715",
+    "title": "A reduced model for complex network analysis of public transportation systems",
+    "year": 2021,
+    "authors": [
+      "Anderson Andrei De Bona",
+      "Marcelo de Oliveira Rosa",
+      "Keiko Verônica Ono Fonseca",
+      "R. Lüders"
+    ],
+    "url": "https://www.semanticscholar.org/paper/4e83e3e213304ae78a743e828cb7ce8e645dd8a7",
+    "citation_count": 49,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "",
+    "retrieval_rank_score": 3.4
+  },
+  {
+    "stable_id": "doi:10.1016/j.scs.2021.103241",
+    "title": "A clustering method for measuring accessibility and equity in public transportation service: Case study of Melbourne",
+    "year": 2021,
+    "authors": [
+      "Seyed Sina Mohri",
+      "S. Mortazavi",
+      "Neema Nassir"
+    ],
+    "url": "https://www.semanticscholar.org/paper/ed75a6245470498e671452aa44ffa2ffe08b1ff3",
+    "citation_count": 37,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "",
+    "retrieval_rank_score": 3.16
+  },
+  {
+    "stable_id": "doi:10.1002/hfm.20537",
+    "title": "Toward Universal Design in Public Transportation Systems: An Analysis of Low‐Floor Bus Passenger Behavior with Video Observations",
+    "year": 2015,
+    "authors": [
+      "Hwan Hwangbo",
+      "Jiyeon Kim",
+      "Sunwoong Kim",
+      "Y. Ji"
+    ],
+    "url": "https://www.semanticscholar.org/paper/39363c87cd51951ddd9ff21f32de9244b16db377",
+    "citation_count": 35,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "",
+    "retrieval_rank_score": 3.11
+  },
+  {
+    "stable_id": "doi:10.1109/mt-its56129.2023.10241480",
+    "title": "Augmenting Ridership Data with Social Media Data to Analyse the Long-term Effect of COVID-19 on Public Transport",
+    "year": 2023,
+    "authors": [
+      "Yanyan Xu",
+      "Panchamy Krishnakumari",
+      "Neil Yorke-Smith",
+      "Serge P. Hoogendoorn"
+    ],
+    "url": "https://www.semanticscholar.org/paper/88ba3f47264de8089e71669cee7cbd23e7ab6ebf",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "International Conference on Models and Technologies for Intelligent Transportation Systems",
+    "retrieval_rank_score": 3.0
+  },
+  {
+    "stable_id": "doi:10.61978/logistica.v3i2.701",
+    "title": "Integrating the Unstructured: Ridehailing as a Catalyst in Jakarta’s Multimodal Transport System",
+    "year": 2025,
+    "authors": [
+      "Ahnis Zulkarnain",
+      "Genny Luhung Prasojo",
+      "Nashrullah",
+      "Politeknik Penerbangan Medan"
+    ],
+    "url": "https://www.semanticscholar.org/paper/ed0fecd9b67a58b1be46b3feed97e95f9b32a5c7",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Logistica : Journal of Logistic and Transportation",
+    "retrieval_rank_score": 3.0
+  },
+  {
+    "stable_id": "doi:10.30659/pondasi.v29i1.32953",
+    "title": "EFFECTIVENESS AND EFFICIENCY OF PUBLIC TRANSPORTATION ON THE PENGGARON-KALIBANTENG ROUTE (TRANS SEMARANG CORRIDOR 1)",
+    "year": 2024,
+    "authors": [
+      "Nurul Ilmiyati Setyobudi"
+    ],
+    "url": "https://www.semanticscholar.org/paper/d9081ddf2575e7d4394144846aa2f7f6ee9df0f0",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Pondasi",
+    "retrieval_rank_score": 3.0
+  },
+  {
+    "stable_id": "doi:10.1088/1742-6596/2949/1/012001",
+    "title": "Applying Structural Equation Modeling to Analyze Acceptance of a Transportation Policy in Ho Chi Minh City",
+    "year": 2025,
+    "authors": [
+      "Gia Tuan Kim",
+      "Hong Tan Van"
+    ],
+    "url": "https://www.semanticscholar.org/paper/6beb31e9448ee0c5306ac117ddd7618537323e27",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "source_type": "academic_paper",
+    "venue": "Journal of Physics: Conference Series",
+    "retrieval_rank_score": 3.0
+  }
+]

@@ -1,3 +1,16 @@
+# Ignore local environment files and Streamlit secrets
+.env
+.env.local
+.env.*.local
+.streamlit/
+
+# Python virtual envs
+.venv/
+venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 cs224v
 .env
 .venv/
@@ -8,7 +21,16 @@ __pycache__/
 
 genie-worksheets/
 downloaded_papers/
-reports/
+
+# Reports folder structure - ignore generated content but keep structure
+reports/combined/*.jsonl
+reports/external_papers/*.jsonl
+reports/local_papers/*.jsonl
+reports/memos/*.md
+reports/questions/*.txt
+reports/questions/*.jsonl
+
+# Legacy root-level files (should no longer be generated)
 *.jsonl
 comparison_questions_*.txt
 memo_*.md

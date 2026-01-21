@@ -1,6 +1,8 @@
 {
-    "query": "i want to reduce young unemployment in bogota colombia. what evidence based could you find about similar places?",
+    "query": " i am interested in public transportation systems",
     "option": "2",
+    "topic": "poverty",
     "external_search": true,
-    "max_results": 5
+    "max_results": 50,
+    "semantic_scholar_api_key": "<REDACTED>"
 }
